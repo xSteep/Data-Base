@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles-reg.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <header>
+        <div class="header">
+            <div class="header-main">
+                <div class="header-main__center">
+                    <a href="http://127.0.0.1:5000" class="no-underline">Dota <span class="outline"> Bazaar</span></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="register-main">
+        <div class="register-main__reg">
+            <div class="reg-name">Регистрация</div>
+            <form method="post">
+                <div class="reg-center">
+                    <label class="reg-center__text">Имя пользователя:</label>
+                    <div class="reg-center__button"><input type="text" class="reg-center__button-in" name="username"></div>
+                    <label class="reg-center__text">Email:</label>
+                    <div class="reg-center__button"><input type="email" class="reg-center__button-in" name="email"></div>
+                    <label class="reg-center__text">Пароль:</label>
+                    <div class="reg-center__button"><input type="password" class="reg-center__button-in" name="password"></div>
+                </div>
+                <div class="reg-button">
+                    <input type="submit" class="reg-button__text" value="Зарегистрироваться">
+                </div>
+            </form>
+        </div>    
+    </div>
+    <div class="just_line"></div>
+</body>
+</html>

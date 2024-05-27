@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Профиль</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles-profile.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="header-main">
+                <div class="header-main__center">
+                    <a href="http://127.0.0.1:5000" class="no-underline">Dota <span class="outline"> Bazaar</span></a>
+                </div>
+                <button class="button-signin">
+                    <a class="button-signin__text" href="http://127.0.0.1:5000/logout">
+                        Выход
+                    </a>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main">
+        <div class="main-avatar">
+            <div class="avatar-img">
+                <img src="{{ url_for('static', filename='avatar.svg') }}" class="img-img">
+            </div>
+            <div class="avatar-name">
+                {{ session['username'] }}
+            </div>
+        </div>
+    </div>
+    <div class="just_line"></div>
+
+    <div class="account-list">
+        <div class="account-list__main">
+            Список всех товаров пользователя
+        </div>
+    </div>
+    <div class="account-list__submain">
+        <p>Если вы хотите продать товар, нажмите <a href="http://127.0.0.1:5000/sell">сюда</a> </p>    
+    </div>
+    <div class="product-main">
+        {% for item in items %}
+        <div class="product_li">
+            <div class="product-li__in">
+                <div class="product-description">
+                    <div class="product-description__text">
+                        <div class="product-description__title">Название: {{ item[1]}}</div>
+                        <div class="product-description__subtitle">Идентификатор товара: {{ item[0] }}</div>
+                        <div class="product-description__subtitle">{{ item[2]}}</div>
+                        <div style="color: white;">mmr: {{ item [5]}}</div>
+                        <div class="product-description__price">{{ item [3]}} руб</div>
+                    </div>
+                    <div class="sell-or-not">
+                        <div class="sell-or-not__text">Продан</div>
+                        <div class="sell-or-not__da">{% if item[4] %} Да {% else %} Нет {% endif %}</div>
+                    </div>
+                </div>
+                <div class="product-button">
+                    <button class="glow-on-hover">
+                        <form action="http://127.0.0.1:5000/delete_item" method="post">
+                            <input type="hidden" name="item_id" value="{{ item[0] }}">
+                            <input type="submit" class="zxc" value="удалить лот">
+                        </form>
+                    </button>
+                </div>
+            </div>
+        </div>    
+        {% endfor %}
+    </div>
+    {% if purchased_items %}
+    <div class="just-line-white"></div>
+    <div class="white-frame">
+        <div class="white-frame__text">
+            Купленные вами товары
+        </div>
+    </div>
+    {% else %}
+            
+    {% endif %}
+    <div class="product-main">
+    {% for purchased_item in purchased_items %}
+    <div class="product_li">
+        <div class="product-li__in">
+            <div class="product-description">
+                <div class="product-description__text">
+                    <div class="product-description__tedit, item=item">Название: {{ purchased_item[1] }}</div>
+                    <div class="product-description__subtitle">Идентификатор товара: {{ purchased_item[0] }}</div>
+                    <div class="product-description__subtitle">{{ purchased_item[2]}}</div>
+                    <div class="product-description__subtitle">Логин Dota 2:{{ purchased_item[4]}}</div>
+                    <div class="product-description__subtitle">Пароль Dota 2:{{ purchased_item[5]}}</div>
+                    <div class="product-description__price-sell">{{ purchased_item [3]}} руб </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    {% endfor %}
+    </div>
+</body>
+</html>

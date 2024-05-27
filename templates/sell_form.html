@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Продажа товара</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles-sell.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <header>
+        <div class="header">
+            <div class="header-main">
+                <div class="header-main__center">
+                    <a href="http://127.0.0.1:5000" class="no-underline">Dota <span class="outline"> Bazaar</span></a>
+                </div>
+                <button class="button-signin">
+                    <a class="button-signin__text" href="http://127.0.0.1:5000/profile">
+                        Профиль
+                    </a>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="main">
+        <div class="main-form">
+            <form action="{{ url_for('sell_item') }}" method="post">
+                <div class="main-form__main">
+                    <div class="form-name">
+                        <label for="title" class="form-name__text">Название товара:</label>
+                        <input type="text" id="title" name="title">
+                    </div>
+                    <div class="form-description">
+                        <label for="description" class="form-name__text">Описание товара:</label>
+                        <textarea id="description" name="description"></textarea>
+                    </div>
+                    <div class="form-price">
+                        <label for="price" class="form-name__text">Цена товара (руб):</label>
+                        <input type="number" id="price" name="price">
+                    </div>
+                    <div class="form-login">
+                        <label for="dota_login" class="form-name__text">Логин от Dota 2:</label>
+                        <input type="text" id="dota_login" name="dota_login">
+                    </div>
+                    <div class="form-pass">
+                        <label for="dota_password" class="form-name__text">Пароль от Dota 2:</label><br>
+                        <input type="password" id="dota_password" name="dota_password"><br>
+                    </div>
+                    <div class="form-mmr">
+                        <label for="mmr" class="form-name__text">Количество mmr:</label>
+                        <input type="number" id="mmr" name="mmr">
+                    </div>
+                    <div class="button-sell">
+                        <button class="glow-on-hover">
+                            <input type="submit" class="asd" value="Продать товар">
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

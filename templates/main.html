@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>DotaB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="header-main">
+                <div class="header-main__left">
+                    <div class="img-icon">
+                        <img src="{{ url_for('static', filename='free-icon-font-twitter-6422210.svg') }}" class="img-icon__twitter">
+                        <img src="{{ url_for('static', filename='free-icon-font-paper-plane-3917567.svg') }}" class="img-icon__tg">
+                    </div>
+                </div>
+                <div class="header-main__center">
+                    <a href="http://127.0.0.1:5000" class="no-underline">Dota <span class="outline"> Bazaar</span></a>
+                </div>
+                <div class="header-main__right">
+                    <button class="button-reg">
+                        <a class="button-reg__text link-white" href="http://127.0.0.1:5000/register">
+                            {% if 'username' in session %}
+                            <a href="http://127.0.0.1:5000/profile" class="button-reg__text link-white">{{ session['username'] }}</a>
+                            {% else %}
+                            Регистрация
+                            {% endif %}
+                        </a>
+                    </button>
+                    <button class="button-signin">
+                        <a class="button-signin__text link-white" href="http://127.0.0.1:5000/login">
+                            {% if 'username' in session %}
+                            <a href="http://127.0.0.1:5000/logout" class="button-signin__text link-white">Выход</a>
+                            {% else %}
+                            Вход
+                            {% endif %}
+                        </a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-header">
+        <div class="main-header__main">
+            <div class="header-video">
+                <div class="video">
+                    <iframe width="400" height="300" 
+                    src="https://www.youtube.com/watch?v=mW9m12JZI9M&ab_channel=Steep" 
+                    frameborder="0" allowfullscreen></iframe>
+                <div class="video-description">
+                    <div class="video-description__text">Как купить</div>
+                </div>
+                </div>
+            </div>
+
+            <div class="header-description">
+                <div class="header-description__top">
+                    <a class="header-description__top-text">Аккаунты дота 2</a>
+                </div>
+                <div class="header-description__main">
+                    <div class="list-text">
+                        <span class="list-number"><div class="color-white">1</div></span>
+                        <div class="list-text__text">Зарегистрируйтесь</div>
+                    </div>
+                    <div class="list-text">
+                        <span class="list-number"><div class="color-white">2</div></span>
+                        <div class="list-text__text">Выбирите аккаунт</div>
+                    </div>
+                    <div class="list-text"> 
+                        <span class="list-number"><div class="color-white">3</div></span>
+                        <div class="list-text__text">Нажмите купить</div>
+                    </div>
+                    <div class="list-text"> 
+                        <span class="list-number"><div class="color-white">4</div></span>
+                        <div class="list-text__text">Получаете данные входа</div>
+                    </div>
+                </div>
+                <div class="header-description__button">
+                    <button class="header-description__button-button">
+                        <div class="header-description__button-text ">
+                            {% if 'username' in session %}
+                            <a href="http://127.0.0.1:5000/profile" class="header-description__button-text link-white">{{ session['username'] }}</a>
+                            {% else %}
+                            <a href="http://127.0.0.1:5000/register" class="link-white">Регистрация</a>
+                            {% endif %}
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="just_line"></div>
+    {% if 'username' in session %}
+    <div class="account-list">
+        <div class="account-list__main">
+            Список всех предложенных аккаунтов с MMR Dota 2
+        </div>
+    </div>
+    <div class="account-list__submain">
+        <p>Если хотите чтото продать перейдите в <a href="http://127.0.0.1:5000/profile">профиль</a> </p>
+    </div>
+
+    <div style="display: flex;">
+
+        <div class="filter-main">
+            <form action="{{ url_for('home') }}" method="get">
+                <select name="sort_by" class="filter-text filter-block">
+                    <option value="price_asc">По возрастанию цены</option>
+                    <option value="price_desc">По убыванию цены</option>
+                    <option value="mmr_asc">По возрастанию MMR</option>
+                    <option value="mmr_desc">По убыванию MMR</option>
+                    <option value="created_asc">По возрастанию даты</option>
+                    <option value="created_desc">По убыванию даты</option>
+                </select>
+                <input type="text" name="query" class="filter-text filter-block" placeholder="Поиск...">
+                <input type="number" name="min_price"  class="filter-text filter-block" placeholder="Минимальная цена">
+                <input type="number" name="max_price"  class="filter-text filter-block" placeholder="Максимальная цена">
+                <input type="number" name="min_mmr"  class="filter-text filter-block" placeholder="Минимальный MMR">
+                <input type="number" name="max_mmr"  class="filter-text filter-block" placeholder="Максимальный MMR">
+                <button class="filter-button">
+                    <input type="submit" class="filter-button__text" value="Применить">
+                </button>
+            </form>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <div>
+            <div class="product-main">
+                {% for item in items %}
+                {% if not item[4] %}
+                <div class="product-li">
+                    <div class="product-li__in">
+                        <div class="product-mmr">
+                            {{ item[5] }}
+                            <div style="font-size: 10px;">
+                                {% if item[5] >= 1 and item[5] < 769 %}
+                                <img src="{{ url_for('static', filename='herald1.webp') }}" style="height: 70px;" alt="herald1">
+                                {% elif item[5] >= 770 and item[5] < 1539 %}
+                                <img src="{{ url_for('static', filename='guardian1.webp') }}" style="height: 70px;" alt="guardian1">
+                                {% elif item[5] >= 1540 and item[5] < 2309 %}
+                                <img src="{{ url_for('static', filename='crusader1.webp') }}" style="height: 70px;" alt="crusader1">
+                                {% elif item[5] >= 2310 and item[5] < 3079 %}
+                                <img src="{{ url_for('static', filename='archon1.webp') }}" style="height: 70px;" alt="archon1">
+                                {% elif item[5] >= 3080 and item[5] < 3849 %}
+                                <img src="{{ url_for('static', filename='legend1.webp') }}" style="height: 70px;" alt="legend1">
+                                {% elif item[5] >= 3850 and item[5] < 4619 %}
+                                <img src="{{ url_for('static', filename='ancient1.webp') }}" style="height: 70px;" alt="ancient1">
+                                {% elif item[5] >= 4620 and item[5] < 5649 %}
+                                <img src="{{ url_for('static', filename='divine1.webp') }}" style="height: 70px;" alt="divine1">
+                                {% elif item[5] >= 5650 and item[5] < 11999 %}
+                                <img src="{{ url_for('static', filename='titan.webp') }}" style="height: 70px;" alt="titan">
+                                {% elif item[5] >= 12000%}
+                                <img src="{{ url_for('static', filename='redtitan.webp') }}" style="height: 70px;" alt="redtitan">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="product-description">
+                            <p class="product-description__title">{{ item[1] }}</p>
+                            <p class="product-description__subtitle">{{ item[2] }}</p>
+                        </div>
+                        <div class="product-button">
+                            <button class="glow-on-hover">
+                                <form action="{{ url_for('buy') }}" method="post">
+                                    <input type="hidden" name="item_id" value="{{ item[0] }}">
+                                    <input type="submit" class="zxc" value="{{ item[3] }} руб">
+                                    <!-- <div class="rub-text">Руб.</div> -->
+                                </form>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="review-main">
+        {% for review in reviews %}
+        <div class="review">
+            <div class="review-avatar">
+                <span class="circle">
+                    <div class="circle-in">
+                        <img src="{{ url_for('static', filename='avatar.svg') }}" class="ava">
+                    </div>
+                </span>  
+            </div>
+            <div class="review-info">
+                <div class="info-name-date">
+                    <div class="info-name">@{{ review[3] }}</div>
+                    <div class="info-date">{{ review[2] }}</div>
+                    {% if review[3] == session['username'] %}
+                    <form action="{{ url_for('delete_review', review_id=review[0]) }}" method="post">
+                        <button type="submit" class="but-del-review">удалить отзыв</button>
+                    </form>
+                    {% endif %}
+                </div>
+                <div class="review-text-like">
+                    <div class="review-text__text">{{ review[1] }}</div>
+                    <form action="{{ url_for('like_review', review_id=review[0]) }}" method="post">
+                        <div class="review-like">
+                            <button type="submit" style="background: none; border: none;">
+                                <img src="{{ url_for('static', filename='like-icon.svg') }}" alt="Лайк" style="width: 20px; height: 20px;">
+                            </button>
+                            <div class="review-like__text">
+                                {{ review[4] }}
+                            </div>
+                        </div>    
+                    </form>
+                </div>
+            </div>
+        </div>   
+        {% endfor %}
+    </div>
+
+    <div class="forma-main">
+        <div class="forma">
+            <div class="forma__text">Оставить отзыв</div>
+            <div class="review-form"><!-- review-form -->
+                <form action="{{ url_for('leave_review') }}" method="post">
+                    <div>
+                        <textarea name="text" placeholder="Введите ваш отзыв" required></textarea>
+                    </form>
+                    <div>    
+                        <button type="submit" class="botton-submit">Отправить</button>
+                    </div>    
+                </form>
+            </div>
+        </div>
+    </div>    
+ 
+    {% else %}
+        <div class="need-register__main">
+            <div class="need-register__main-text">
+            Чтобы увидеть предложения необходимо <a href="http://127.0.0.1:5000/register">зарегистрироваться</a> или <a href="http://127.0.0.1:5000/login">войти</a>
+            </div>
+        </div>
+    {% endif %}
+    
+
+</body>

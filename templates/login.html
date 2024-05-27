@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Вход</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles-log.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <header>
+        <div class="header">
+            <div class="header-main">
+                <div class="header-main__center">
+                    <a href="http://127.0.0.1:5000" class="no-underline">Dota <span class="outline"> Bazaar</span></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="login-main">
+        <div class="login-main__log">
+            <div class="log-name">Вход</div>
+
+            <form method="post">
+                <div class="log-center">
+                    <label class="log-center__text">Имя пользователя:</label>
+                    <input type="text" class="log-center__button-in" name="username">
+                    <label class="log-center__text">Пароль:</label>
+                    <input type="password" class="log-center__button-in" name="password">
+                    <div class="log-button">
+                        <input type="submit" class="log-button__text" value="Войти">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
